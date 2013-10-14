@@ -1,0 +1,20 @@
+{
+    "name": "goez/acl",
+    "description": "",
+    "authors": [
+        {
+            "name": "Jace Ju",
+            "email": "jaceju@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.0.x"
+    },
+    "autoload": {
+        "psr-0": {
+            "Goez\\Acl": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
