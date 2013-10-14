@@ -46,12 +46,25 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $author->deny('create', 'page');
         $author->deny('create', 'site');
 
-
         $this->assertFalse($author->can('create', 'page'));
         $this->assertFalse($author->can('create', 'site'));
 
         $this->assertTrue($author->can('read', 'article'));
         $this->assertTrue($author->can('write', 'article'));
+
+    }
+
+    public function testPermissionOverride()
+    {
+        $author = $this->_acl->addRole('author')->getRole('author');
+
+        $author->allow('read', 'article');
+        $author->allow('write', 'article');
+        $author->deny('read', 'article');
+        $author->deny('write', 'article');
+
+        $this->assertFalse($author->can('read', 'article'));
+        $this->assertFalse($author->can('write', 'article'));
 
     }
 
