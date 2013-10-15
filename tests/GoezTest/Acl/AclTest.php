@@ -26,7 +26,7 @@ class AclTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public function testPermissionForReadOnly()
+    public function testRuleForReadOnly()
     {
         $guest = $this->_acl->addRole('guest')->getRole('guest');
 
@@ -37,7 +37,7 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($guest->can('write', 'article'));
     }
 
-    public function testPermissionForReadAndRewrite()
+    public function testRuleForReadAndRewrite()
     {
         $author = $this->_acl->addRole('author')->getRole('author');
 
@@ -54,7 +54,7 @@ class AclTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public function testPermissionOverride()
+    public function testRuleOverride()
     {
         $author = $this->_acl->addRole('author')->getRole('author');
 
@@ -67,5 +67,23 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($author->can('write', 'article'));
 
     }
+
+    public function testRuleForAdmin()
+    {
+        $admin = $this->_acl->addRole('admin')->getRole('admin');
+        $admin->allow('all', 'all');
+
+        $this->assertTrue($admin->can('create', 'page'));
+        $this->assertTrue($admin->can('create', 'site'));
+
+        $this->assertTrue($admin->can('read', 'article'));
+        $this->assertTrue($admin->can('write', 'article'));
+
+    }
+
+//    public function testCombinedRoles()
+//    {
+//
+//    }
 
 }
