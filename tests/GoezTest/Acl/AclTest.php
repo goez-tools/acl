@@ -71,7 +71,7 @@ class AclTest extends \PHPUnit_Framework_TestCase
     public function testRuleForAdmin()
     {
         $admin = $this->_acl->addRole('admin')->getRole('admin');
-        $admin->allow('all', 'all');
+        $admin->fullPrivileges();
 
         $this->assertTrue($admin->can('create', 'page'));
         $this->assertTrue($admin->can('create', 'site'));
@@ -80,10 +80,5 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($admin->can('write', 'article'));
 
     }
-
-//    public function testCombinedRoles()
-//    {
-//
-//    }
 
 }

@@ -51,6 +51,15 @@ class Role
     }
 
     /**
+     * @return \Goez\Acl\Role
+     */
+    public function fullPrivileges()
+    {
+        $this->_addRule('allowed', null, 'all');
+        return $this;
+    }
+
+    /**
      * @param string $type
      * @param string $action
      * @param mixed $resource
@@ -80,6 +89,10 @@ class Role
      */
     public function can($action, $resource)
     {
+        if (isset($this->_rules['allowed']['all'])) {
+            return true;
+        }
+
         $action = strtolower($action);
         $resource = $this->_getResourceName($resource);
 
@@ -88,6 +101,7 @@ class Role
             if (!isset($rules[$resource])) {
                 continue;
             }
+
             if (in_array($action, $rules[$resource])) {
                 return ($type === 'allowed');
             }
