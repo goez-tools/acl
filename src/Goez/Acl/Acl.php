@@ -46,49 +46,50 @@ class Acl
     }
 
     /**
-     * @param mixed $roleIdentify
+     * @param mixed $roleIdentifier
      * @param mixed $action
      * @param mixed $resource
      * @return \Goez\Acl\Acl
      */
-    public function allow($roleIdentify, $action, $resource)
+    public function allow($roleIdentifier, $action, $resource)
     {
-        if (!$this->hasRole($roleIdentify)) {
-            $this->addRole($roleIdentify);
+        if (!$this->hasRole($roleIdentifier)) {
+            $this->addRole($roleIdentifier);
         }
 
-        $this->getRole($roleIdentify)->allow($action, $resource);
+        $this->getRole($roleIdentifier)->allow($action, $resource);
         return $this;
     }
 
     /**
-     * @param mixed $roleIdentify
+     * @param mixed $roleIdentifier
      * @param mixed $action
      * @param mixed $resource
      * @return \Goez\Acl\Acl
      */
-    public function deny($roleIdentify, $action, $resource)
+    public function deny($roleIdentifier, $action, $resource)
     {
-        if (!$this->hasRole($roleIdentify)) {
-            $this->addRole($roleIdentify);
+        if (!$this->hasRole($roleIdentifier)) {
+            $this->addRole($roleIdentifier);
         }
 
-        $this->getRole($roleIdentify)->deny($action, $resource);
+        $this->getRole($roleIdentifier)->deny($action, $resource);
         return $this;
     }
 
     /**
-     * @param mixed $roleIdentify
+     * @param mixed $roleIdentifier
      * @param mixed $action
      * @param mixed $resource
      * @return bool
      */
-    public function can($roleIdentify, $action, $resource)
+    public function can($roleIdentifier, $action, $resource)
     {
-        if (!$this->hasRole($roleIdentify)) {
-            $this->addRole($roleIdentify);
+        if (!$this->hasRole($roleIdentifier)) {
+            $this->addRole($roleIdentifier);
         }
 
-        return $this->getRole($roleIdentify)->can($action, $resource);
+        return $this->getRole($roleIdentifier)->can($action, $resource);
     }
+
 }
