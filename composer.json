@@ -1,6 +1,7 @@
 {
     "name": "goez/acl",
-    "description": "",
+    "description": "Simple role-based access control for Laravel 4",
+    "license": "MIT",
     "authors": [
         {
             "name": "Jace Ju",
@@ -19,5 +20,9 @@
             "Goez\\Acl": "src/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "keywords": [
+        "rbac",
+        "laravel"
+    ]
 }
