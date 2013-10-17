@@ -28,13 +28,13 @@ class AclTest extends \PHPUnit_Framework_TestCase
 
     public function testRuleForReadOnly()
     {
-        $guest = $this->_acl->addRole('guest')->getRole('guest');
+        $this->_acl->addRole('guest');
 
-        $guest->allow('read', 'article');
-        $guest->deny('write', 'article');
+        $this->_acl->allow('guest', 'read', 'article');
+        $this->_acl->deny('guest', 'write', 'article');
 
-        $this->assertTrue($guest->can('read', 'article'));
-        $this->assertFalse($guest->can('write', 'article'));
+        $this->assertTrue($this->_acl->can('guest', 'read', 'article'));
+        $this->assertFalse($this->_acl->can('guest', 'write', 'article'));
     }
 
     public function testRuleForReadAndRewrite()

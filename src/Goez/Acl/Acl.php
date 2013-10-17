@@ -45,5 +45,38 @@ class Acl
         throw new Exception("Can't find role of '$name'.");
     }
 
+    /**
+     * @param mixed $roleIdentify
+     * @param mixed $action
+     * @param mixed $resource
+     * @return \Goez\Acl\Acl
+     */
+    public function allow($roleIdentify, $action, $resource)
+    {
+        $this->getRole($roleIdentify)->allow($action, $resource);
+        return $this;
+    }
 
+    /**
+     * @param mixed $roleIdentify
+     * @param mixed $action
+     * @param mixed $resource
+     * @return \Goez\Acl\Acl
+     */
+    public function deny($roleIdentify, $action, $resource)
+    {
+        $this->getRole($roleIdentify)->deny($action, $resource);
+        return $this;
+    }
+
+    /**
+     * @param mixed $roleIdentify
+     * @param mixed $action
+     * @param mixed $resource
+     * @return bool
+     */
+    public function can($roleIdentify, $action, $resource)
+    {
+        return $this->getRole($roleIdentify)->can($action, $resource);
+    }
 }
