@@ -53,6 +53,10 @@ class Acl
      */
     public function allow($roleIdentify, $action, $resource)
     {
+        if (!$this->hasRole($roleIdentify)) {
+            $this->addRole($roleIdentify);
+        }
+
         $this->getRole($roleIdentify)->allow($action, $resource);
         return $this;
     }
@@ -65,6 +69,10 @@ class Acl
      */
     public function deny($roleIdentify, $action, $resource)
     {
+        if (!$this->hasRole($roleIdentify)) {
+            $this->addRole($roleIdentify);
+        }
+
         $this->getRole($roleIdentify)->deny($action, $resource);
         return $this;
     }
@@ -77,6 +85,10 @@ class Acl
      */
     public function can($roleIdentify, $action, $resource)
     {
+        if (!$this->hasRole($roleIdentify)) {
+            $this->addRole($roleIdentify);
+        }
+
         return $this->getRole($roleIdentify)->can($action, $resource);
     }
 }
