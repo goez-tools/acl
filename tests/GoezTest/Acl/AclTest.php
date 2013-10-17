@@ -37,32 +37,28 @@ class AclTest extends \PHPUnit_Framework_TestCase
 
     public function testRuleForReadAndRewrite()
     {
-        $author = $this->_acl->addRole('author')->getRole('author');
+        $this->_acl->allow('author', 'read', 'article');
+        $this->_acl->allow('author', 'write', 'article');
+        $this->_acl->deny('author', 'create', 'page');
+        $this->_acl->deny('author', 'create', 'site');
 
-        $author->allow('read', 'article');
-        $author->allow('write', 'article');
-        $author->deny('create', 'page');
-        $author->deny('create', 'site');
+        $this->assertFalse($this->_acl->can('author', 'create', 'page'));
+        $this->assertFalse($this->_acl->can('author', 'create', 'site'));
 
-        $this->assertFalse($author->can('create', 'page'));
-        $this->assertFalse($author->can('create', 'site'));
-
-        $this->assertTrue($author->can('read', 'article'));
-        $this->assertTrue($author->can('write', 'article'));
+        $this->assertTrue($this->_acl->can('author', 'read', 'article'));
+        $this->assertTrue($this->_acl->can('author', 'write', 'article'));
 
     }
 
     public function testRuleOverride()
     {
-        $author = $this->_acl->addRole('author')->getRole('author');
+        $this->_acl->allow('author', 'read', 'article');
+        $this->_acl->allow('author', 'write', 'article');
+        $this->_acl->deny('author', 'read', 'article');
+        $this->_acl->deny('author', 'write', 'article');
 
-        $author->allow('read', 'article');
-        $author->allow('write', 'article');
-        $author->deny('read', 'article');
-        $author->deny('write', 'article');
-
-        $this->assertFalse($author->can('read', 'article'));
-        $this->assertFalse($author->can('write', 'article'));
+        $this->assertFalse($this->_acl->can('author', 'read', 'article'));
+        $this->assertFalse($this->_acl->can('author', 'write', 'article'));
 
     }
 
