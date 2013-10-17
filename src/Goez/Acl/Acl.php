@@ -79,6 +79,20 @@ class Acl
 
     /**
      * @param mixed $roleIdentifier
+     * @return \Goez\Acl\Acl
+     */
+    public function fullPrivileges($roleIdentifier)
+    {
+        if (!$this->hasRole($roleIdentifier)) {
+            $this->addRole($roleIdentifier);
+        }
+
+        $this->getRole($roleIdentifier)->fullPrivileges();
+        return $this;
+    }
+
+    /**
+     * @param mixed $roleIdentifier
      * @param mixed $action
      * @param mixed $resource
      * @return bool

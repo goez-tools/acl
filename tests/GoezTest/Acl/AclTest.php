@@ -21,8 +21,8 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->_acl->addRole('admin');
         $this->assertTrue($this->_acl->hasRole('admin'));
 
-        $admin = $this->_acl->getRole('admin');
-        $this->assertInstanceOf('\Goez\Acl\Role', $admin);
+        $this->_acl = $this->_acl->getRole('admin');
+        $this->assertInstanceOf('\Goez\Acl\Role', $this->_acl);
 
     }
 
@@ -64,14 +64,13 @@ class AclTest extends \PHPUnit_Framework_TestCase
 
     public function testRuleForAdmin()
     {
-        $admin = $this->_acl->addRole('admin')->getRole('admin');
-        $admin->fullPrivileges();
+        $this->_acl->fullPrivileges('admin');
 
-        $this->assertTrue($admin->can('create', 'page'));
-        $this->assertTrue($admin->can('create', 'site'));
+        $this->assertTrue($this->_acl->can('admin', 'create', 'page'));
+        $this->assertTrue($this->_acl->can('admin', 'create', 'site'));
 
-        $this->assertTrue($admin->can('read', 'article'));
-        $this->assertTrue($admin->can('write', 'article'));
+        $this->assertTrue($this->_acl->can('admin', 'read', 'article'));
+        $this->assertTrue($this->_acl->can('admin', 'write', 'article'));
 
     }
 
