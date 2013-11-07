@@ -25,8 +25,8 @@ class Role
     }
 
     /**
-     * @param string $action
-     * @param mixed $resource
+     * @param  string              $action
+     * @param  mixed               $resource
      * @return \Goez\Acl\Role
      * @throws \Goez\Acl\Exception
      */
@@ -38,8 +38,8 @@ class Role
     }
 
     /**
-     * @param string $action
-     * @param mixed $resource
+     * @param  string              $action
+     * @param  mixed               $resource
      * @return \Goez\Acl\Role
      * @throws \Goez\Acl\Exception
      */
@@ -56,13 +56,14 @@ class Role
     public function fullPrivileges()
     {
         $this->_addRule('allowed', null, 'all');
+
         return $this;
     }
 
     /**
-     * @param string $type
-     * @param string $action
-     * @param mixed $resource
+     * @param  string              $type
+     * @param  string              $action
+     * @param  mixed               $resource
      * @return \Goez\Acl\Role
      * @throws \Goez\Acl\Exception
      */
@@ -83,8 +84,8 @@ class Role
     }
 
     /**
-     * @param string $action
-     * @param string $resource
+     * @param  string $action
+     * @param  string $resource
      * @return bool
      */
     public function can($action, $resource)
@@ -111,13 +112,12 @@ class Role
     }
 
     /**
-     * @param mixed $resource
+     * @param  mixed  $resource
      * @return string
      */
     protected function _getResourceName($resource)
     {
         return is_object($resource) ? get_class($resource) : $resource;
     }
-
 
 }

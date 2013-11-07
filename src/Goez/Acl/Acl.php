@@ -4,10 +4,12 @@ namespace Goez\Acl;
 
 class Acl
 {
+    const ROLE_ADMINISTRATOR = 1;
+
     protected $_roles = array();
 
     /**
-     * @param string $name
+     * @param  string        $name
      * @return \Goez\Acl\Acl
      */
     public function addRole($name)
@@ -22,7 +24,7 @@ class Acl
     }
 
     /**
-     * @param string $name
+     * @param  string $name
      * @return bool
      */
     public function hasRole($name)
@@ -31,7 +33,7 @@ class Acl
     }
 
     /**
-     * @param string $name
+     * @param  string              $name
      * @return \Goez\Acl\Role
      * @throws \Goez\Acl\Exception
      */
@@ -46,9 +48,9 @@ class Acl
     }
 
     /**
-     * @param mixed $roleIdentifier
-     * @param mixed $action
-     * @param mixed $resource
+     * @param  mixed         $roleIdentifier
+     * @param  mixed         $action
+     * @param  mixed         $resource
      * @return \Goez\Acl\Acl
      */
     public function allow($roleIdentifier, $action, $resource)
@@ -58,13 +60,14 @@ class Acl
         }
 
         $this->getRole($roleIdentifier)->allow($action, $resource);
+
         return $this;
     }
 
     /**
-     * @param mixed $roleIdentifier
-     * @param mixed $action
-     * @param mixed $resource
+     * @param  mixed         $roleIdentifier
+     * @param  mixed         $action
+     * @param  mixed         $resource
      * @return \Goez\Acl\Acl
      */
     public function deny($roleIdentifier, $action, $resource)
@@ -74,11 +77,12 @@ class Acl
         }
 
         $this->getRole($roleIdentifier)->deny($action, $resource);
+
         return $this;
     }
 
     /**
-     * @param mixed $roleIdentifier
+     * @param  mixed         $roleIdentifier
      * @return \Goez\Acl\Acl
      */
     public function fullPrivileges($roleIdentifier)
@@ -88,13 +92,14 @@ class Acl
         }
 
         $this->getRole($roleIdentifier)->fullPrivileges();
+
         return $this;
     }
 
     /**
-     * @param mixed $roleIdentifier
-     * @param mixed $action
-     * @param mixed $resource
+     * @param  mixed $roleIdentifier
+     * @param  mixed $action
+     * @param  mixed $resource
      * @return bool
      */
     public function can($roleIdentifier, $action, $resource)
