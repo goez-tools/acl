@@ -117,7 +117,7 @@ class Role
      */
     protected function _getResourceName($resource)
     {
-        return is_object($resource) ? get_class($resource) : $resource;
+        return is_object($resource) ? get_class($resource) : (string) $resource;
     }
 
 }
