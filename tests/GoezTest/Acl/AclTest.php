@@ -21,8 +21,8 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->_acl->addRole('admin');
         $this->assertTrue($this->_acl->hasRole('admin'));
 
-        $role = $this->_acl->getRole('admin');
-        $this->assertInstanceOf('\Goez\Acl\Role', $role);
+        $roleAdmin = $this->_acl->getRole('admin');
+        $this->assertInstanceOf('\Goez\Acl\Role', $roleAdmin);
 
     }
 
