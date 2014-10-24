@@ -15,4 +15,17 @@
             <directory suffix=".php">./tests/</directory>
         </testsuite>
     </testsuites>
+    <logging>
+        <log type="coverage-html"
+            target="./report"
+            charset="UTF-8" />
+        <log type="coverage-clover"
+            target="build/logs/clover.xml" />
+    </logging>
+    <filter>
+        <blacklist>
+            <directory>./vendor</directory>
+            <directory>/Users/jaceju/.composer</directory>
+        </blacklist>
+    </filter>
 </phpunit>
