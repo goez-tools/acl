@@ -1,6 +1,6 @@
 # Simple role-based access control
 
-[![Build Status](https://travis-ci.org/jaceju/goez-acl.svg)](https://travis-ci.org/jaceju/goez-acl)
+[![Build Status](https://travis-ci.org/jaceju/goez-acl.svg)](https://travis-ci.org/jaceju/goez-acl) [![Code Climate](https://codeclimate.com/github/jaceju/goez-acl/badges/gpa.svg)](https://codeclimate.com/github/jaceju/goez-acl) [![Test Coverage](https://codeclimate.com/github/jaceju/goez-acl/badges/coverage.svg)](https://codeclimate.com/github/jaceju/goez-acl)
 
 ## Requirement
 
@@ -32,8 +32,8 @@ Goez/Acl also supports Laravel 4, just follow the steps below:
 	'providers' => array(
 		 // ...
 	    'Goez\Acl\AclServiceProvider', // Add this line
-		
-	),	
+
+	),
 	```
 
 4. Edit `app/config/packages/goez/acl/config.php`:
@@ -64,9 +64,9 @@ Goez/Acl also supports Laravel 4, just follow the steps below:
 	    // ...
 	}
 	```
-	
+
 	In Blade template:
-	
+
 	```html
 	@if (app('acl')->can('member', 'read', 'article`))
 	<!-- .... -->
@@ -141,7 +141,7 @@ var_dump($acl->can('admin', 'write', 'article')); // true
 ```
 
 *Note: Method `fullPrivileges ` will add role automatically.*
-	
+
 ## License
 
 MIT
