@@ -71,10 +71,6 @@ class Role
     {
         $resource = $this->_getResourceName($resource);
 
-        if (!is_string($resource)) {
-            throw new Exception('Resource must be string or object.');
-        }
-
         if (!isset($this->_rules[$type][$resource])) {
             $this->_rules[$type][$resource] = array();
         }
@@ -117,7 +113,15 @@ class Role
      */
     protected function _getResourceName($resource)
     {
-        return is_object($resource) ? get_class($resource) : (string) $resource;
+        if (is_object($resource)) {
+            $resource = get_class($resource);
+        }
+
+        if (!is_string($resource)) {
+            throw new Exception('Resource must be string or object.');
+        }
+
+        return (string) $resource;
     }
 
 }
