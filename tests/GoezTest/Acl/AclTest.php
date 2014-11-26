@@ -112,14 +112,21 @@ class AclTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    /**
-     * @group new
-     */
     public function testWildcardForAction()
     {
         $this->_acl->allow('author', '*', 'article');
 
         $this->assertTrue($this->_acl->can('author', 'read', 'article'));
         $this->assertTrue($this->_acl->can('author', 'write', 'article'));
+    }
+
+    public function testWildcardForResource()
+    {
+        $this->_acl->allow('author', 'read', '*');
+
+        $this->assertTrue($this->_acl->can('author', 'read', 'article'));
+        $this->assertTrue($this->_acl->can('author', 'read', 'news'));
+        $this->assertFalse($this->_acl->can('author', 'write', 'article'));
+        $this->assertFalse($this->_acl->can('author', 'write', 'news'));
     }
 }
