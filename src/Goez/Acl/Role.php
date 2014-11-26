@@ -69,14 +69,18 @@ class Role
      */
     protected function _addRule($type, $action, $resource)
     {
-        $resource = $this->_getResourceName($resource);
+        list($main, $sub) = $this->_getResourceName($resource);
 
-        if (!isset($this->_rules[$type][$resource])) {
-            $this->_rules[$type][$resource] = array();
+        if (!isset($this->_rules[$type][$main])) {
+            $this->_rules[$type][$main] = array();
+        }
+
+        if (!isset($this->_rules[$type][$main][$sub])) {
+            $this->_rules[$type][$main][$sub] = array();
         }
 
         $action = strtolower($action);
-        $this->_rules[$type][$resource][] = $action;
+        $this->_rules[$type][$main][$sub][] = $action;
     }
 
     /**
@@ -86,26 +90,28 @@ class Role
      */
     public function can($action, $resource)
     {
-        if (isset($this->_rules['allowed']['*'])) {
-            $actions = $this->_rules['allowed']['*'];
+        list($main, $sub) = $this->_getResourceName($resource);
+        $action = strtolower($action);
+        $allowedRules = $this->_rules['allowed'];
+
+        if (isset($allowedRules['*']['*'])) {
+            $actions = $this->_rules['allowed']['*']['*'];
             if ("" === $actions[0] || in_array($action, $actions)) {
                 return true;
             }
         }
 
-        $action = strtolower($action);
-        $resource = $this->_getResourceName($resource);
 
         foreach (array('denied', 'allowed') as $type) {
             $rules = $this->_rules[$type];
 
             // if there is no matched action
-            if (!isset($rules[$resource])) {
+            if (!isset($rules[$main][$sub])) {
                 continue;
             }
 
             // Check action
-            $actions = $rules[$resource];
+            $actions = $rules[$main][$sub];
             if ($actions[0] === '*' || in_array($action, $actions)) {
                 return ($type === 'allowed');
             }
@@ -116,7 +122,7 @@ class Role
 
     /**
      * @param  mixed  $resource
-     * @return string
+     * @return array
      * @throws Exception
      */
     protected function _getResourceName($resource)
@@ -129,7 +135,12 @@ class Role
             throw new Exception('Resource must be string or object.');
         }
 
-        return (string) $resource;
+        $resource = explode(':', $resource);
+        if (!array_key_exists(1, $resource)) {
+            $resource[1] = '*';
+        }
+
+        return $resource;
     }
 
 }
