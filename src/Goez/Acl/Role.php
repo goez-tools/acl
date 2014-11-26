@@ -110,6 +110,7 @@ class Role
     /**
      * @param  mixed  $resource
      * @return string
+     * @throws Exception
      */
     protected function _getResourceName($resource)
     {
