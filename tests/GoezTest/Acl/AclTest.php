@@ -129,4 +129,38 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_acl->can('author', 'write', 'article'));
         $this->assertFalse($this->_acl->can('author', 'write', 'news'));
     }
+
+    /**
+     * @group new
+     */
+    public function testSubResource()
+    {
+        $this->_acl->allow('author', 'read', 'article');
+        $this->_acl->deny('author', 'read', 'article:footer');
+
+        $this->assertTrue($this->_acl->can('author', 'read', 'article:title'));
+        $this->assertTrue($this->_acl->can('author', 'read', 'article:content'));
+
+        $this->assertFalse($this->_acl->can('author', 'write', 'article:title'));
+        $this->assertFalse($this->_acl->can('author', 'write', 'article:content'));
+        $this->assertFalse($this->_acl->can('author', 'write', 'article:footer'));
+        $this->assertFalse($this->_acl->can('author', 'read', 'article:footer'));
+    }
+
+    /**
+     * @group new
+     */
+    public function testWildcardForSubResource()
+    {
+        $this->_acl->allow('author', 'write', 'news:*');
+        $this->_acl->deny('author', 'write', 'news:footer');
+
+        $this->assertTrue($this->_acl->can('author', 'write', 'news:title'));
+        $this->assertTrue($this->_acl->can('author', 'write', 'news:content'));
+
+        $this->assertFalse($this->_acl->can('author', 'read', 'news:title'));
+        $this->assertFalse($this->_acl->can('author', 'read', 'news:content'));
+        $this->assertFalse($this->_acl->can('author', 'read', 'news:footer'));
+        $this->assertFalse($this->_acl->can('author', 'write', 'news:footer'));
+    }
 }
