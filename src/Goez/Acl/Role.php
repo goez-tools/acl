@@ -99,7 +99,7 @@ class Role
                 continue;
             }
 
-            if (in_array($action, $rules[$resource])) {
+            if ($rules[$resource][0] === '*' || in_array($action, $rules[$resource])) {
                 return ($type === 'allowed');
             }
         }
