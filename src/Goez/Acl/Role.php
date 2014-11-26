@@ -98,11 +98,15 @@ class Role
 
         foreach (array('denied', 'allowed') as $type) {
             $rules = $this->_rules[$type];
+
+            // if there is no matched action
             if (!isset($rules[$resource])) {
                 continue;
             }
 
-            if ($rules[$resource][0] === '*' || in_array($action, $rules[$resource])) {
+            // Check action
+            $actions = $rules[$resource];
+            if ($actions[0] === '*' || in_array($action, $actions)) {
                 return ($type === 'allowed');
             }
         }
