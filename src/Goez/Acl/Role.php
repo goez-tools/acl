@@ -55,7 +55,7 @@ class Role
      */
     public function fullPrivileges()
     {
-        $this->_addRule('allowed', null, '*');
+        $this->_addRule('allowed', '*', '*');
 
         return $this;
     }
@@ -96,7 +96,7 @@ class Role
 
         if (isset($allowedRules['*']['*'])) {
             $actions = $this->_rules['allowed']['*']['*'];
-            if ("" === $actions[0] || in_array($action, $actions)) {
+            if ("*" === $actions[0] || in_array($action, $actions)) {
                 return true;
             }
         }
