@@ -75,13 +75,17 @@ Goez/Acl also supports Laravel 4, just follow the steps below:
 
 ## More Examples
 
-### Add Role
+For the examples below, you need to create an instance of `Acl` first:
 
 ```php
 use Goez\Acl\Acl;
 
 $acl = new Acl();
+```
 
+### Add Role
+
+```php
 $acl->addRole('admin');
 $acl->addRole('member');
 $acl->addRole('guest');
@@ -94,10 +98,6 @@ var_dump($acl->hasRole('notExists')); // false
 ### Create rules for role
 
 ```php
-use Goez\Acl\Acl;
-
-$acl = new Acl();
-
 $acl->allow('guest', 'read', 'article');
 $acl->deny('guest', 'write', 'article');
 
@@ -112,10 +112,6 @@ var_dump($acl->can('guest', 'write', 'article')); // false
 ### Override rule
 
 ```php
-use Goez\Acl\Acl;
-
-$acl = new Acl();
-
 $acl->allow('author', 'read', 'article'); // rule 1
 $acl->allow('author', 'write', 'article'); // rule 2
 $acl->deny('author', 'read', 'article'); // rule 3, override rule 1
@@ -128,10 +124,6 @@ var_dump($acl->can('author', 'write', 'article')); // false
 ### Full privileges
 
 ```php
-use Goez\Acl\Acl;
-
-$acl = new Acl();
-
 $acl->fullPrivileges('admin');
 
 var_dump($acl->can('admin', 'create', 'page')); // true
@@ -141,6 +133,44 @@ var_dump($acl->can('admin', 'write', 'article')); // true
 ```
 
 *Note: Method `fullPrivileges ` will add role automatically.*
+
+### Wildcard support for action
+
+```php
+$acl->allow('author', '*', 'article');
+
+var_dump($acl->can('author', 'read', 'article')); // true
+var_dump($acl->can('author', 'write', 'article')); // true
+
+var_dump($acl->can('author', 'read', 'news')); // false
+var_dump($acl->can('author', 'write', 'news')); // false
+```
+
+### Sub resource
+
+Use `:` to define the sub-resource.
+
+In this example, `article` as same as `article:*`.
+
+```php
+$acl->allow('guest', 'read', 'article');
+$acl->allow('guest', 'write', 'article:comment');
+$acl->allow('author', '*', 'article:*');
+
+var_dump($acl->can('author', 'read', 'article:title')); // true
+var_dump($acl->can('author', 'read', 'article:content')); // true
+var_dump($acl->can('author', 'read', 'article:comment')); // true
+var_dump($acl->can('author', 'write', 'article:title')); // true
+var_dump($acl->can('author', 'write', 'article:content')); // true
+var_dump($acl->can('author', 'write', 'article:comment')); // true
+
+var_dump($acl->can('guest', 'read', 'article:title')); // true
+var_dump($acl->can('guest', 'read', 'article:content')); // true
+var_dump($acl->can('guest', 'read', 'article:comment')); // true
+var_dump($acl->can('guest', 'write', 'article:title')); // false
+var_dump($acl->can('guest', 'write', 'article:content')); // false
+var_dump($acl->can('guest', 'write', 'article:comment')); // true
+```
 
 ## License
 
