@@ -118,6 +118,9 @@ class AclTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($this->_acl->can('author', 'read', 'article'));
         $this->assertTrue($this->_acl->can('author', 'write', 'article'));
+
+        $this->assertFalse($this->_acl->can('author', 'read', 'news'));
+        $this->assertFalse($this->_acl->can('author', 'write', 'news'));
     }
 
     public function testWildcardForResource()
@@ -130,37 +133,60 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_acl->can('author', 'write', 'news'));
     }
 
-    /**
-     * @group new
-     */
     public function testSubResource()
     {
         $this->_acl->allow('author', 'read', 'article');
-        $this->_acl->deny('author', 'read', 'article:footer');
+        $this->_acl->deny('author', 'read', 'article:comment');
 
         $this->assertTrue($this->_acl->can('author', 'read', 'article:title'));
         $this->assertTrue($this->_acl->can('author', 'read', 'article:content'));
 
         $this->assertFalse($this->_acl->can('author', 'write', 'article:title'));
         $this->assertFalse($this->_acl->can('author', 'write', 'article:content'));
-        $this->assertFalse($this->_acl->can('author', 'write', 'article:footer'));
-        $this->assertFalse($this->_acl->can('author', 'read', 'article:footer'));
+        $this->assertFalse($this->_acl->can('author', 'write', 'article:comment'));
+        $this->assertFalse($this->_acl->can('author', 'read', 'article:comment'));
     }
 
-    /**
-     * @group new
-     */
     public function testWildcardForSubResource()
     {
         $this->_acl->allow('author', 'write', 'news:*');
-        $this->_acl->deny('author', 'write', 'news:footer');
+        $this->_acl->deny('author', 'write', 'news:comment');
 
         $this->assertTrue($this->_acl->can('author', 'write', 'news:title'));
         $this->assertTrue($this->_acl->can('author', 'write', 'news:content'));
 
         $this->assertFalse($this->_acl->can('author', 'read', 'news:title'));
         $this->assertFalse($this->_acl->can('author', 'read', 'news:content'));
-        $this->assertFalse($this->_acl->can('author', 'read', 'news:footer'));
-        $this->assertFalse($this->_acl->can('author', 'write', 'news:footer'));
+        $this->assertFalse($this->_acl->can('author', 'read', 'news:comment'));
+        $this->assertFalse($this->_acl->can('author', 'write', 'news:comment'));
+    }
+
+    public function testMixedRules()
+    {
+        $this->_acl->allow('guest', 'read', 'article');
+        $this->_acl->allow('guest', 'write', 'article:comment');
+        $this->_acl->allow('author', '*', 'article');
+        $this->_acl->allow('author', '*', 'news:*');
+
+        $this->assertTrue($this->_acl->can('author', 'read', 'article:title'));
+        $this->assertTrue($this->_acl->can('author', 'read', 'article:content'));
+        $this->assertTrue($this->_acl->can('author', 'read', 'article:comment'));
+        $this->assertTrue($this->_acl->can('author', 'write', 'article:title'));
+        $this->assertTrue($this->_acl->can('author', 'write', 'article:content'));
+        $this->assertTrue($this->_acl->can('author', 'write', 'article:comment'));
+
+        $this->assertTrue($this->_acl->can('author', 'read', 'news:title'));
+        $this->assertTrue($this->_acl->can('author', 'read', 'news:content'));
+        $this->assertTrue($this->_acl->can('author', 'read', 'news:comment'));
+        $this->assertTrue($this->_acl->can('author', 'write', 'news:title'));
+        $this->assertTrue($this->_acl->can('author', 'write', 'news:content'));
+        $this->assertTrue($this->_acl->can('author', 'write', 'news:comment'));
+
+        $this->assertTrue($this->_acl->can('guest', 'read', 'article:title'));
+        $this->assertTrue($this->_acl->can('guest', 'read', 'article:content'));
+        $this->assertTrue($this->_acl->can('guest', 'read', 'article:comment'));
+        $this->assertTrue($this->_acl->can('guest', 'write', 'article:comment'));
+        $this->assertFalse($this->_acl->can('guest', 'write', 'article:title'));
+        $this->assertFalse($this->_acl->can('guest', 'write', 'article:content'));
     }
 }

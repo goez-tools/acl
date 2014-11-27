@@ -110,9 +110,15 @@ class Role
             }
 
             // Check action
-            $actions = isset($rules[$main][$sub]) ? $rules[$main][$sub] : $rules[$main]['*'];
-            if ($actions[0] === '*' || in_array($action, $actions)) {
-                return ($type === 'allowed');
+            // Wildcard first
+            foreach (array('*', $sub) as $act) {
+                if (!isset($rules[$main][$act])) {
+                    continue;
+                }
+                $actions = $rules[$main][$act];
+                if ($actions[0] === '*' || in_array($action, $actions)) {
+                    return ($type === 'allowed');
+                }
             }
         }
 
