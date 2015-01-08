@@ -25,7 +25,7 @@ class AclTest extends \PHPUnit_Framework_TestCase
 
     public function testNotValidResource()
     {
-        $this->setExpectedException('Exception', 'Resource must be string or object.');
+        $this->setExpectedException('Exception', 'Resource must be string, number or object.');
         $role = new Role('guest');
         $role->allow('read', null);
     }
@@ -54,6 +54,14 @@ class AclTest extends \PHPUnit_Framework_TestCase
     public function testResourceIsObject()
     {
         $resource = (object) [ 'id' => 1 ];
+        $this->_acl->allow('guest', 'read', $resource);
+        $this->_acl->deny('guest', 'write', $resource);
+        $this->assertTrue($this->_acl->can('guest', 'read', $resource));
+    }
+
+    public function testResourceIsNumber()
+    {
+        $resource = 1;
         $this->_acl->allow('guest', 'read', $resource);
         $this->_acl->deny('guest', 'write', $resource);
         $this->assertTrue($this->_acl->can('guest', 'read', $resource));

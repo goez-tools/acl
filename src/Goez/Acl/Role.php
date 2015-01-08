@@ -136,8 +136,8 @@ class Role
             $resource = get_class($resource);
         }
 
-        if (!is_string($resource)) {
-            throw new Exception('Resource must be string or object.');
+        if (!is_string($resource) && !is_numeric($resource)) {
+            throw new Exception('Resource must be string, number or object.');
         }
 
         $resource = explode(':', $resource);
