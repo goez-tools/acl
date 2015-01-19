@@ -96,7 +96,7 @@ class Role
 
         if (isset($allowedRules['*']['*'])) {
             $actions = $this->_rules['allowed']['*']['*'];
-            if ("*" === $actions[0] || in_array($action, $actions)) {
+            if ('*' === $actions[0] || in_array($action, $actions)) {
                 return true;
             }
         }
