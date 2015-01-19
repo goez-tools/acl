@@ -203,20 +203,30 @@ class AclTest extends \PHPUnit_Framework_TestCase
     /**
      * @group reverse
      */
+    public function testReverseWildcardInSubMoudle()
+    {
+        $this->_acl->allow('guest', 'write', 'article:comment');
+
+        $this->assertTrue($this->_acl->can('guest', '*', 'article'));
+        $this->assertFalse($this->_acl->can('guest', '*', 'news:*'));
+    }
+
+    /**
+     * @group reverse
+     */
     public function testReverseWildcard()
     {
         $this->_acl->allow('guest', 'read', 'article');
-        $this->_acl->allow('guest', 'write', 'article:comment');
 
         $this->_acl->allow('author', 'read', 'news');
         $this->_acl->allow('author', 'write', 'news:*');
 
-        $this->assertTrue($this->_acl->can('guest', '*', 'article'));
         $this->assertTrue($this->_acl->can('guest', '*', 'article:comment'));
         $this->assertFalse($this->_acl->can('guest', '*', 'news'));
         $this->assertFalse($this->_acl->can('guest', '*', 'news:*'));
 
         $this->assertTrue($this->_acl->can('author', '*', 'news:title'));
         $this->assertTrue($this->_acl->can('author', '*', 'news:content'));
+        $this->assertTrue($this->_acl->can('author', '*', 'news'));
     }
 }
