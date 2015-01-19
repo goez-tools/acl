@@ -112,9 +112,17 @@ class Role
             // Check action
             // Wildcard first
             foreach (array('*', $sub) as $act) {
+
+                // Not specified resource
                 if (!isset($rules[$main][$act])) {
                     continue;
                 }
+
+                // Any action for the resource
+                if ('*' === $action) {
+                    return ($type === 'allowed');
+                }
+
                 $actions = $rules[$main][$act];
                 if ($actions[0] === '*' || in_array($action, $actions)) {
                     return ($type === 'allowed');
