@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "Start watching..."
+fswatch -o "src/" "tests/" | xargs -n1 -I{} phpunit
