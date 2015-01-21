@@ -243,6 +243,7 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->_acl->allow('guest', 'write', 'article:comment');
 
         $this->assertTrue($this->_acl->can('guest', '*', 'article'));
+        $this->assertFalse($this->_acl->can('guest', '*', 'article:content'));
         $this->assertFalse($this->_acl->can('guest', '*', 'news:*'));
     }
 
