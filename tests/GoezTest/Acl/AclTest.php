@@ -82,6 +82,15 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_acl->can('guest', 'write', 'article'));
     }
 
+    public function testMutipleActions()
+    {
+        $actions = ['read', 'write'];
+        $this->_acl->allow('author', $actions, 'article');
+
+        $this->assertTrue($this->_acl->can('author', 'read', 'article'));
+        $this->assertTrue($this->_acl->can('author', 'write', 'article'));
+    }
+
     public function testRuleForReadAndRewrite()
     {
         $this->_acl->allow('author', 'read', 'article');
