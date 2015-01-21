@@ -91,6 +91,32 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_acl->can('author', 'write', 'article'));
     }
 
+    public function testMutipleResources()
+    {
+        $resources = ['page', 'site'];
+        $this->_acl->allow('admin', 'create', $resources);
+
+        $this->assertTrue($this->_acl->can('admin', 'create', 'page'));
+        $this->assertTrue($this->_acl->can('admin', 'create', 'site'));
+    }
+
+    public function testMutipleActionsAndResources()
+    {
+        $actions = ['create', 'read', 'write'];
+        $resources = ['page', 'site', 'article'];
+        $this->_acl->allow('admin', $actions, $resources);
+
+        $this->assertTrue($this->_acl->can('admin', 'create', 'page'));
+        $this->assertTrue($this->_acl->can('admin', 'create', 'site'));
+        $this->assertTrue($this->_acl->can('admin', 'create', 'article'));
+        $this->assertTrue($this->_acl->can('admin', 'read', 'site'));
+        $this->assertTrue($this->_acl->can('admin', 'read', 'page'));
+        $this->assertTrue($this->_acl->can('admin', 'read', 'article'));
+        $this->assertTrue($this->_acl->can('admin', 'write', 'page'));
+        $this->assertTrue($this->_acl->can('admin', 'write', 'site'));
+        $this->assertTrue($this->_acl->can('admin', 'write', 'article'));
+    }
+
     public function testRuleForReadAndRewrite()
     {
         $this->_acl->allow('author', 'read', 'article');

@@ -59,10 +59,14 @@ class Acl
             $this->addRole($roleIdentifier);
         }
 
-        $actions = (array) $action;
+        $role = $this->getRole($roleIdentifier);
+        $actions = is_array($action) ? $action : [ $action ];
+        $resources = is_array($resource) ? $resource : [ $resource ];
 
         foreach ($actions as $act) {
-            $this->getRole($roleIdentifier)->allow($act, $resource);
+            foreach ($resources as $res) {
+                $role->allow($act, $res);
+            }
         }
 
         return $this;
