@@ -134,6 +134,17 @@ var_dump($acl->can('admin', 'write', 'article')); // true
 
 *Note: Method `fullPrivileges ` will add role automatically.*
 
+### Multiple actions or resources
+
+```php
+$actions = ['create', 'read', 'write'];
+$resources = ['page', 'site', 'article'];
+
+$acl->allow('guest', 'read', $resources);
+$acl->allow('author', $actions, 'article');
+$acl->allow('admin', $actions, $resources);
+```
+
 ### Wildcard support for action
 
 ```php
@@ -144,6 +155,16 @@ var_dump($acl->can('author', 'write', 'article')); // true
 
 var_dump($acl->can('author', 'read', 'news')); // false
 var_dump($acl->can('author', 'write', 'news')); // false
+```
+
+### Wildcard support in `can` method.
+
+```php
+$acl->allow('guest', 'write', 'article:comment');
+
+var_dump($acl->can('guest', '*', 'article')); // true
+var_dump($acl->can('guest', '*', 'article:content')); // false
+var_dump($acl->can('guest', '*', 'news:*')); // false
 ```
 
 ### Sub resource
