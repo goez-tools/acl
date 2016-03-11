@@ -21,8 +21,6 @@ class AclServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->package('goez/acl');
-
         $this->app['acl'] = $this->app->share(function ($app) {
             $user = $app['auth']->user();
             $acl = new Acl($user);
