@@ -1,6 +1,6 @@
 <?php
 
-namespace GoezTest\Acl;
+namespace GoezTests;
 
 use Goez\Acl\Acl;
 use Goez\Acl\Role;

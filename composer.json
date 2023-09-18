@@ -17,8 +17,13 @@
         "codeclimate/php-test-reporter": "dev-master"
     },
     "autoload": {
-        "psr-0": {
-            "Goez\\Acl": "src/"
+        "psr-4": {
+            "Goez\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GoezTests\\": "tests/"
         }
     },
     "minimum-stability": "dev",
