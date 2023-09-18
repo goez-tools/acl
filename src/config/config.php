@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     'init' => function ($acl) {
 
         // Initialize your permission here.
@@ -13,4 +13,4 @@ return array(
         // $acl->deny('guest', 'write', 'article');
 
     },
-);
+];
