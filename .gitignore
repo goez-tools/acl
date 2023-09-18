@@ -1,6 +1,7 @@
 /vendor
 /report
 /build
+*.cache
 composer.phar
 composer.lock
 .DS_Store
