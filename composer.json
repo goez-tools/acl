@@ -30,5 +30,12 @@
     "keywords": [
         "rbac",
         "laravel"
-    ]
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Goez\\Acl\\AclServiceProvider"
+            ]
+        }
+    }
 }

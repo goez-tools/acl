@@ -14,6 +14,16 @@ class AclServiceProvider extends ServiceProvider
     protected $defer = false;
 
     /**
+     * 引導包服務
+     */
+    public function boot(): void
+    {
+        $this->publishes([
+            __DIR__.'/../config/config.php' => config_path('acl.php')
+        ], 'acl-config');
+    }
+
+    /**
      * Register the service provider.
      *
      * @return void
@@ -40,6 +50,6 @@ class AclServiceProvider extends ServiceProvider
      */
     public function provides(): array
     {
-        return array('acl');
+        return ['acl'];
     }
 }
