@@ -6,7 +6,6 @@ use Illuminate\Support\ServiceProvider;
 
 class AclServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -15,13 +14,23 @@ class AclServiceProvider extends ServiceProvider
     protected $defer = false;
 
     /**
+     * 引導包服務
+     */
+    public function boot(): void
+    {
+        $this->publishes([
+            __DIR__.'/../config/config.php' => config_path('acl.php')
+        ], 'acl-config');
+    }
+
+    /**
      * Register the service provider.
      *
      * @return void
      */
     public function register()
     {
-        $this->app['acl'] = $this->app->share(function ($app) {
+        $this->app->singleton('acl', function ($app) {
             $user = $app['auth']->user();
             $acl = new Acl($user);
             $fn = $app['config']->get('acl::init', null);
@@ -39,9 +48,8 @@ class AclServiceProvider extends ServiceProvider
      *
      * @return array
      */
-    public function provides()
+    public function provides(): array
     {
-        return array('acl');
+        return ['acl'];
     }
-
 }

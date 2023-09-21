@@ -1,6 +1,6 @@
 {
     "name": "goez/acl",
-    "description": "Simple role-based access control for Laravel 4",
+    "description": "Simple role-based access control for Laravel",
     "license": "MIT",
     "authors": [
         {
@@ -9,21 +9,33 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9",
-        "illuminate/support": "5.1.*"
+        "php": ">=7.4"
     },
     "require-dev": {
-        "phpunit/phpunit": ">= 3.7.0",
-        "codeclimate/php-test-reporter": "dev-master"
+        "phpunit/phpunit": "^7.0|^8.0",
+        "codeclimate/php-test-reporter": "dev-master",
+        "illuminate/support": ">=5.4 <=10"
     },
     "autoload": {
-        "psr-0": {
-            "Goez\\Acl": "src/"
+        "psr-4": {
+            "Goez\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GoezTests\\": "tests/"
         }
     },
     "minimum-stability": "dev",
     "keywords": [
         "rbac",
         "laravel"
-    ]
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Goez\\Acl\\AclServiceProvider"
+            ]
+        }
+    }
 }

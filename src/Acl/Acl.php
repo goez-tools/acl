@@ -9,10 +9,11 @@ class Acl
     protected $_roles = array();
 
     /**
-     * @param  string        $name
-     * @return \Goez\Acl\Acl
+     * @param string $name
+     * @return Acl
+     * @throws Exception
      */
-    public function addRole($name)
+    public function addRole($name): Acl
     {
         $name = strtolower($name);
 
@@ -27,17 +28,17 @@ class Acl
      * @param  string $name
      * @return bool
      */
-    public function hasRole($name)
+    public function hasRole($name): bool
     {
         return in_array(strtolower($name), array_keys($this->_roles));
     }
 
     /**
      * @param  string              $name
-     * @return \Goez\Acl\Role
-     * @throws \Goez\Acl\Exception
+     * @return Role
+     * @throws Exception
      */
-    public function getRole($name)
+    public function getRole($name): Role
     {
         $name = strtolower($name);
         if ($this->hasRole($name)) {
@@ -48,12 +49,13 @@ class Acl
     }
 
     /**
-     * @param  mixed         $roleIdentifier
-     * @param  mixed         $action
-     * @param  mixed         $resource
-     * @return \Goez\Acl\Acl
+     * @param mixed $roleIdentifier
+     * @param mixed $action
+     * @param mixed $resource
+     * @return Acl
+     * @throws Exception
      */
-    public function allow($roleIdentifier, $action, $resource)
+    public function allow($roleIdentifier, $action, $resource): Acl
     {
         if (!$this->hasRole($roleIdentifier)) {
             $this->addRole($roleIdentifier);
@@ -73,12 +75,13 @@ class Acl
     }
 
     /**
-     * @param  mixed         $roleIdentifier
-     * @param  mixed         $action
-     * @param  mixed         $resource
-     * @return \Goez\Acl\Acl
+     * @param mixed $roleIdentifier
+     * @param mixed $action
+     * @param mixed $resource
+     * @return Acl
+     * @throws Exception
      */
-    public function deny($roleIdentifier, $action, $resource)
+    public function deny($roleIdentifier, $action, $resource): Acl
     {
         if (!$this->hasRole($roleIdentifier)) {
             $this->addRole($roleIdentifier);
@@ -90,10 +93,11 @@ class Acl
     }
 
     /**
-     * @param  mixed         $roleIdentifier
-     * @return \Goez\Acl\Acl
+     * @param mixed $roleIdentifier
+     * @return Acl
+     * @throws Exception
      */
-    public function fullPrivileges($roleIdentifier)
+    public function fullPrivileges($roleIdentifier): Acl
     {
         if (!$this->hasRole($roleIdentifier)) {
             $this->addRole($roleIdentifier);
@@ -105,10 +109,11 @@ class Acl
     }
 
     /**
-     * @param  mixed $roleIdentifier
-     * @param  mixed $action
-     * @param  mixed $resource
+     * @param mixed $roleIdentifier
+     * @param mixed $action
+     * @param mixed $resource
      * @return bool
+     * @throws Exception
      */
     public function can($roleIdentifier, $action, $resource)
     {

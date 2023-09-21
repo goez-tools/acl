@@ -4,74 +4,64 @@
 
 ## Requirement
 
-PHP 5.4+
+- PHP 7.4+
 
 ## Installation
 
 Goez/Acl is an independent library for access control, you can use it in any PHP project with composer:
 
-```bash
+```shell
 composer require goez/acl
 ```
 
-### Laravel 4
+### Laravel
 
-Goez/Acl also supports Laravel 4, just follow the steps below:
+Goez/Acl also supports Laravel 5.4, just follow the steps below:
 
 1. Install from composer.
 
 2. Publish configuration after composer require.
 
-   ```bash
-   php artisan config:publish goez/acl
+   ```shell
+   php artisan vendor:publish --tag=acl-config
    ```
 
-3. Register provider in `app/config/app.php` :
+3. Edit `app/config/packages/goez/acl/config.php`:
 
-	```php
-	'providers' => array(
-		 // ...
-	    'Goez\Acl\AclServiceProvider', // Add this line
+    ```php
+    <?php
+    return [
+        'init' => function ($acl) {
+    
+            // Initialize your permission here.
+            // Example:
+            //
+            // $acl->fullPrivileges('admin');
+            // $acl->allow('author', 'read', 'article');
+            // $acl->allow('author', 'write', 'article');
+            // $acl->allow('guest', 'read', 'article');
+            // $acl->deny('guest', 'write', 'article');
+    
+        },
+    ];
+    ```
 
-	),
-	```
+4. Use methods of Acl in your code:
 
-4. Edit `app/config/packages/goez/acl/config.php`:
+    ```php
+    // In controller:
+    if ($acl->can('member', 'read', 'article')) {
+        // ...
+    }
+    ```
 
-	```php
-	<?php
-	return array(
-	    'init' => function ($acl) {
+   In Blade template:
 
-	        // Initialize your permission here.
-	        // Example:
-	        //
-	        // $acl->fullPrivileges('admin');
-	        // $acl->allow('author', 'read', 'article');
-	        // $acl->allow('author', 'write', 'article');
-	        // $acl->allow('guest', 'read', 'article');
-	        // $acl->deny('guest', 'write', 'article');
-
-	    },
-	);
-	```
-
-4. 	Use methods of Acl in your code:
-
-	```php
-	// In controller:
-	if ($acl->can('member', 'read', 'article')) {
-	    // ...
-	}
-	```
-
-	In Blade template:
-
-	```html
-	@if (app('acl')->can('member', 'read', 'article`))
-	<!-- .... -->
-	@endif
-	```
+    ```html
+    @if (app('acl')->can('member', 'read', 'article`))
+    <!-- .... -->
+    @endif
+    ```
 
 ## More Examples
 

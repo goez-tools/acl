@@ -1,31 +1,32 @@
 <?php
 
-namespace GoezTest\Acl;
+namespace GoezTests;
 
 use Goez\Acl\Acl;
+use Goez\Acl\Exception;
 use Goez\Acl\Role;
 
-class AclTest extends \PHPUnit_Framework_TestCase
+class AclTest extends \PHPUnit\Framework\TestCase
 {
     /**
-     * @var \Goez\Acl\Acl;
+     * @var Acl;
      */
     protected $_acl = null;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->_acl = new Acl();
     }
 
     public function testAddEmptyRole()
     {
-        $this->setExpectedException('Exception', 'Name of role must be non-empty.');
+        $this->expectException(Exception::class, 'Name of role must be non-empty.');
         $this->_acl->addRole('');
     }
 
     public function testNotValidResource()
     {
-        $this->setExpectedException('Exception', 'Resource must be string, number or object.');
+        $this->expectException(Exception::class, 'Resource must be string, number or object.');
         $role = new Role('guest');
         $role->allow('read', null);
     }
@@ -37,7 +38,7 @@ class AclTest extends \PHPUnit_Framework_TestCase
 
     public function testNoRole()
     {
-        $this->setExpectedException('Exception', 'Can\'t find role of \'guest\'');
+        $this->expectException(Exception::class, 'Can\'t find role of \'guest\'');
         $this->_acl->getRole('guest');
     }
 
@@ -47,13 +48,13 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_acl->hasRole('admin'));
 
         $roleAdmin = $this->_acl->getRole('admin');
-        $this->assertInstanceOf('\Goez\Acl\Role', $roleAdmin);
+        $this->assertInstanceOf(Role::class, $roleAdmin);
 
     }
 
     public function testResourceIsObject()
     {
-        $resource = (object) [ 'id' => 1 ];
+        $resource = (object)['id' => 1];
         $this->_acl->allow('guest', 'read', $resource);
         $this->_acl->deny('guest', 'write', $resource);
         $this->assertTrue($this->_acl->can('guest', 'read', $resource));
@@ -82,7 +83,7 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_acl->can('guest', 'write', 'article'));
     }
 
-    public function testMutipleActions()
+    public function testMultipleActions()
     {
         $actions = ['read', 'write'];
         $this->_acl->allow('author', $actions, 'article');
@@ -91,7 +92,7 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_acl->can('author', 'write', 'article'));
     }
 
-    public function testMutipleResources()
+    public function testMultipleResources()
     {
         $resources = ['page', 'site'];
         $this->_acl->allow('admin', 'create', $resources);
@@ -100,7 +101,7 @@ class AclTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_acl->can('admin', 'create', 'site'));
     }
 
-    public function testMutipleActionsAndResources()
+    public function testMultipleActionsAndResources()
     {
         $actions = ['create', 'read', 'write'];
         $resources = ['page', 'site', 'article'];
@@ -238,7 +239,7 @@ class AclTest extends \PHPUnit_Framework_TestCase
     /**
      * @group reverse
      */
-    public function testReverseWildcardInSubMoudle()
+    public function testReverseWildcardInSubModule()
     {
         $this->_acl->allow('guest', 'write', 'article:comment');
 
