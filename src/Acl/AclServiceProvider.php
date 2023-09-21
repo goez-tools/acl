@@ -33,7 +33,7 @@ class AclServiceProvider extends ServiceProvider
         $this->app->singleton('acl', function ($app) {
             $user = $app['auth']->user();
             $acl = new Acl($user);
-            $fn = $app['config']->get('acl::init', null);
+            $fn = $app['config']->get('acl.init', null);
 
             if ($fn) {
                 $fn($acl);
